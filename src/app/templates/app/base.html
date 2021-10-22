@@ -1,0 +1,255 @@
+<!-- Extends default Bootstrap Italia template -->
+{% extends 'bootstrap-italia-base.html' %}
+
+{% load static %}
+{% load has_group %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-italia.min.css' %}">
+<link href="{% static 'ajax_datatable/css/style.css' %}" rel="stylesheet" />
+<link href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+{% endblock extrastyle %}
+
+<!-- Page Title -->
+{% block page_title %}
+Sistema di Giustizia Sportiva
+{% endblock page_title %}
+
+<!-- My custom scss sheet -->
+{% block extra_head %}
+
+{% endblock extra_head %}
+
+{% block header_slim_sub_menu %}
+{% endblock header_slim_sub_menu %}
+
+{% block header_slim_buttons %}
+
+{% if user.is_authenticated %}
+<div style="font-size: small; margin-right: 10px;"><p style="margin: auto; color: white"><b>{{ user.username }}</b></p></div>
+<div class="it-access-top-wrapper">
+    <button class="btn btn-primary btn-sm" href="{% url 'logout' %}" onclick="window.location.href = event.currentTarget.getAttribute('href');" type="button">Esci</button>
+</div>
+{% else %}
+<div class="it-access-top-wrapper">
+    <button class="btn btn-primary btn-sm" href="{% url 'login' %}" onclick="window.location.href = event.currentTarget.getAttribute('href');" type="button">Accedi</button>
+</div>
+{% endif %}
+
+{% endblock header_slim_buttons %}
+
+<!-- URL link top left -->
+{% block header_slim_org_url %}
+
+{% endblock header_slim_org_url %}
+
+<!-- Name top left -->
+{% block header_slim_org_name %}
+Sistema di Giustizia Sportiva
+{% endblock header_slim_org_name %}
+
+<!-- Mobile slim_org_name -->
+{% block header_slim_mobile_org_name %}
+Sistema di Giustizia Sportiva
+{% endblock header_slim_mobile_org_name %}
+
+<!-- Make empty areas -->
+{% block header_mobile_arrow %}{% endblock header_mobile_arrow %}
+{% block header_mobile_slim_menu %}{% endblock header_mobile_slim_menu %}
+
+<!-- Logo in Header -->
+{% block header_center_logo %}
+<img style="margin-right:30px; width:10vh;" src="{% static 'images/logo.svg' %}" />
+<!--span style="border-left: 0.1em solid #fff;
+vertical-align: middle;
+height: 60px;
+margin-top: 1.4em;
+margin-right: 0.3em;
+margin-left: 0.5em;
+font-size: 1.2em;"></span-->
+{% endblock header_center_logo %}
+
+<!-- Organization name in Header -->
+{% block header_center_org_name %}
+Sistema di Giustizia Sportiva
+{% endblock header_center_org_name %}
+
+<!-- Organization description in Header -->
+{% block header_center_org_subname %}
+
+{% endblock header_center_org_subname %}
+
+<!-- Social + search in Header -->
+{% block header_center_right_zone %}
+
+{% endblock header_center_right_zone %}
+
+<!-- Main menu -->
+{% block main_menu %}
+{% if user.is_authenticated %}
+<div class="it-header-navbar-wrapper">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <nav class="navbar navbar-expand-lg has-megamenu">
+                    <button class="custom-navbar-toggler" type="button" aria-controls="nav10" aria-expanded="false" aria-label="Toggle navigation" data-target="#nav10">
+                        <svg class="icon">
+                            <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-burger"></use>
+                        </svg>
+                    </button>
+                    <div class="navbar-collapsable" id="nav10">
+                        <div class="overlay"></div>
+                        <div class="close-div sr-only">
+                            <button class="btn close-menu" type="button"><span class="it-close"></span>close</button>
+                        </div>
+                        <div class="menu-wrapper">
+                            <ul class="navbar-nav">
+                                {% block link_bacheca %}
+                                <li class="nav-item"><a class="nav-link" href="/bacheca"><span>Bacheca</span></a></li>
+                                {% endblock link_bacheca %}
+                                {% if request.user|has_group:'PROCURA_GENERALE' %}
+                                <li class="nav-item dropdown">
+                                    {% block link_anagrafica %}
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                    {% endblock link_anagrafica %}
+                                        <span>Anagrafica</span>
+                                        <svg class="icon icon-xs">
+                                            <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-expand"></use>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <div class="link-list-wrapper">
+                                            <ul class="link-list">
+                                                <li><a class="list-item" href="/persone"><span>Persone</span></a></li>
+                                                <li><a class="list-item" href="/societa"><span>Società</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+                                {% block link_scadenzario %}
+                                <li class="nav-item"><a class="nav-link" href="/scadenzario"><span>Scadenzario/Gestione Fascicoli</span></a></li>
+                                {% endblock link_scadenzario %}
+                                {% if request.user|has_group:'PROCURA_GENERALE' %}
+                                <li class="nav-item dropdown">
+                                    {% block link_nuova_utenza %}
+                                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-expanded="false">
+                                    {% endblock link_nuova_utenza %}
+                                        <span>Gestione Utenti</span>
+                                        <svg class="icon icon-xs">
+                                            <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-expand"></use>
+                                        </svg>
+                                    </a>
+                                    <div class="dropdown-menu">
+                                        <div class="link-list-wrapper">
+                                            <ul class="link-list">
+                                                <li><a class="list-item" href="/nuova_utenza"><span>Nuova Utenza</span></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock main_menu %}
+
+{% block centered_container %}
+
+{% block extrajs %}
+<script type="text/javascript" src="{% static 'js/bootstrap-italia.bundle.min.js' %}"></script>
+{% endblock extrajs %}
+
+{% endblock centered_container %}
+
+<!-- Logo in Footer -->
+{% block footer_logo %}
+<img style="width:9vh;" src="{% static 'images/logo.svg' %}" />
+{% endblock footer_logo %}
+
+<!-- Organization name in Footer -->
+{% block footer_org_name %}
+
+{% endblock footer_org_name %}
+
+<!-- Organization name in Footer -->
+{% block footer_org_subname %}
+
+{% endblock footer_org_subname %}
+
+<!-- Footer middle section with menu blocks -->
+{% block footer_menu_section %}
+
+{% endblock footer_menu_section %}
+
+<!-- Footer bottom section with contacts -->
+{% block footer_contacts_section %}
+<section class="py-4 border-white border-top">
+    <div class="row">
+        <div class="col-lg-4 col-md-4 pb-2">
+            <h4><a href="#" title="Vai alla pagina: Contatti">Contatti</a></h4>
+            <p>
+                <strong>Comitato Olimpico Nazionale Italiano</strong><br>Piazza Lauro de Bosis, 15 00135 - Roma - Italia<br>P. IVA: 00993181007
+            </p>
+            <div class="link-list-wrapper">
+                <!--ul class="footer-list link-list clearfix">
+                    <li><a class="list-item" href="#" title="Vai alla pagina: Posta Elettronica Certificata">Posta Elettronica Certificata</a></li>
+                    <li><a class="list-item" href="#" title="Vai alla pagina: URP - Ufficio Relazioni con il Pubblico">URP - Ufficio Relazioni con il Pubblico</a></li>
+                </ul-->
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 pb-2">
+        </div>
+        <div class="col-lg-4 col-md-4 pb-2">
+            <div class="pb-2">
+                <h4><a href="#" title="Vai alla pagina: Seguici su"></a>Seguici su</a></h4>
+                <ul class="list-inline text-left social">
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="https://www.facebook.com/ConiNews?fref=ts" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-facebook"></use>
+                            </svg><span class="sr-only">Facebook</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="https://twitter.com/Coninews" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-twitter"></use>
+                            </svg><span class="sr-only">Twitter</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="https://www.instagram.com/conisocial/?hl=it" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-instagram"></use>
+                            </svg><span class="sr-only">Instagram</span>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a class="p-2 text-white" href="https://www.youtube.com/channel/UCrIKiyoR5ow7bEUF5OstxRw" target="_blank">
+                            <svg class="icon icon-sm icon-white align-top">
+                                <use xlink:href="{% static 'images/svg/sprite.svg' %}#it-youtube"></use>
+                            </svg><span class="sr-only">Youtube</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!--div class="pb-2">
+                <h4><a href="#" title="Vai alla pagina: Newsletter">Newsletter</a></h4>
+                <p>Form Newsletter</p>
+            </div-->
+        </div>
+    </div>
+</section>
+{% endblock footer_contacts_section %}
+
+{% block footer_bottom %}
+
+{% endblock footer_bottom %}
+

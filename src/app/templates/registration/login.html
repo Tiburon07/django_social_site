@@ -1,0 +1,76 @@
+{% extends 'app/base.html' %}
+
+{% load static %}
+
+{% block centered_container %}
+{{ block.super }}
+
+{% block extrastyle %}
+{{ block.super }}
+<link href="{% static 'css/form.css' %}" rel="stylesheet"/>
+
+<style>
+    .margin_define {
+        margin: auto;
+    }
+</style>
+{% endblock extrastyle %}
+
+<div class="notification top-fix with-icon error" role="alert" id="notificationTop" aria-labelledby="not2-title" style="display: none; z-index: 1; margin-top: 3vh;">
+    <h5 id="not2-title">
+      <svg class="icon"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-close-circle"></use></svg>Errore
+    </h5>
+    <p>Dati di accesso non validi.</p>
+</div>
+<div style="width: 50%; margin: 0 auto; text-align: center;">
+    <p class="lead text-center"><b>Accesso Utente</b></p>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" name="username" autocapitalize="none" autocomplete="username" maxlength="150" required="true" id="id_username">
+            <label for="id_username">Nome Utente
+                <span class="form-required" title="Questo campo è richiesto.">*</span>
+            </label>
+        </div>
+        <div class="form-group">
+            <input type="password" name="password" class="form-control input-password" required="true" id="id_password" aria-labelledby="infoPassword">
+            <span class="password-icon" aria-hidden="true">
+                <svg class="password-icon-visible icon icon-sm"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-visible"></use></svg>
+                <svg class="password-icon-invisible icon icon-sm d-none"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-invisible"></use></svg>
+            </span>
+            <label for="id_password">Password
+                <span class="form-required" title="Questo campo è richiesto.">*</span>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 60%;">Accedi</button>
+    </form>
+</div>
+<div style="margin-top: 50px;">
+    <p class="lead"><b>Accesso riservato alle sole persone autorizzate.</b></p>
+    <div style="font-size: small;">
+        <b>NOTA BENE:</b> Le persone non autorizzate che tentassero di accedere alle aree riservate del Sito Web e/o di violare le misure di sicurezza a protezione del Sito Web saranno perseguite in sede civile e/o penale secondo i termini di legge. In particolare, devono considerarsi vietati, a titolo meramente esemplificativo, i seguenti comportamenti:<br />
+        (i) l'accesso e/o il tentativo di accesso non autorizzato al Sito Web,<br />
+        (ii) l'accesso a dati e/o ad informazioni e/o a Servizi dei quali non si è destinatari,<br />
+        (iii) il tentativo di testare e/o analizzare la sicurezza e la vulnerabilità del sistema informatico o della rete che consente l'utilizzo del Sito Web;<br />
+        (iv) la manomissione ed i tentativi di neutralizzare o superare le misure di sicurezza e/o di autenticazione poste a protezione del Sito Web;<br />
+        (v) l'intercettazione e/o l'impossessamento di dati e informazioni in modo fraudolento;<br />
+        (vi) il porre in essere qualsiasi attività anche solo potenzialmente idonea a creare turbative con il regolare utilizzo del Sito Web da parte degli utenti e dell'host ovvero della rete, per mezzo di attività, a titolo meramente esemplificativo, comunemente identificate con le espressioni di "overloading" o "denial-of-service" di sistema informativo.<br />
+    </div>
+</div>
+
+{% block extrajs %}
+{{ block.super }}
+
+{% if form.errors %}
+
+<script>
+    $(document).ready(() => {
+        notificationShow('notificationTop', 6000);
+    });
+</script>
+
+{% endif %}
+
+{% endblock extrajs %}
+
+{% endblock centered_container %}

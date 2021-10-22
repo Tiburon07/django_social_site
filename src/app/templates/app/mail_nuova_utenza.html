@@ -1,0 +1,23 @@
+{% extends 'app/base.html' %}
+
+{% load static %}
+
+{% block header_slim_wrapper %}
+{% endblock header_slim_wrapper %}
+
+{% block centered_container %}
+
+{% block main_menu %}
+{% endblock main_menu %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-italia.min.css' %}">
+{% endblock extrastyle %}
+
+<p class="lead text-center"><b>Sistema di Giustizia Sportiva</b><br>
+Un amministratore del Sistema di Giustizia Sportiva ha creato un account associato a questo indirizzo email.<br>
+Puoi effettuare il login cliccando sul link sottostante, oppure copiandolo nel tuo browser.<br>
+Una volta autenticato sarai automaticamente indirizzato alla pagina di reset della password.</p>
+<p class="lead text-center"><a href={{ login_url }}>{{ login_url }}</a></p>
+
+{% endblock centered_container %}

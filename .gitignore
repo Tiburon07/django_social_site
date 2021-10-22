@@ -1,0 +1,10 @@
+__pycache__/
+.idea/
+.python-version
+db.sqlite3
+#src/giustizia_sportiva/local_settings.ini
+#src/giustizia_sportiva/local_settings.py
+#src/giustizia_sportiva/production_settings.py
+local_settings.ini
+local_settings.py
+production_settings.py

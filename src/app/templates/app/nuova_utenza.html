@@ -1,0 +1,124 @@
+{% extends 'app/base.html' %}
+
+{% load static %}
+
+{% block centered_container %}
+{{ block.super }}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<link href="{% static 'css/form.css' %}" rel="stylesheet"/>
+
+{% endblock extrastyle %}
+
+<div class="notification top-fix with-icon success" role="alert" id="notificationTopSuccess" aria-labelledby="not2-title" style="display: none; z-index: 1; margin-top: 3vh;">
+    <h5 id="not2-title">
+        <svg class="icon"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-check-circle"></use></svg>Nuova Utenza
+    </h5>
+    <p>Operazione completata.</p>
+</div>
+<div class="notification top-fix with-icon error" role="alert" id="notificationTopError" aria-labelledby="not2-title" style="display: none; z-index: 1; margin-top: 3vh;">
+    <h5 id="not2-title">
+        <svg class="icon"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-close-circle"></use></svg>Nuova Utenza
+    </h5>
+    <p id="messaggio"></p>
+</div>
+<div style="margin-bottom: 30px;">
+    <div style="width: 50%; margin: 0 auto; text-align: center;">
+        <p class="lead text-center" style="margin-bottom: 50px;"><b>Nuova Utenza</b></p>
+        <form method="post" id="nuova_utenza_form">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="bootstrap-select-wrapper">
+                    <label>Ruolo
+                        <span class="form-required" title="Questo campo è richiesto.">*</span>
+                    </label>
+                    <select title="Scegli una opzione" required="true" name="ruolo" form="nuova_utenza_form">
+                        <option value="Organismo">Organismo</option>
+                        <option value="Procura">Procura</option>
+                        <option value="Procuratore Nazionale">Procuratore Nazionale</option>
+                        <option value="Sostituto Procuratore">Sostituto Procuratore</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" autofocus="" autocapitalize="none" maxlength="150" required="true" id="id_username">
+                <label for="id_username">Nome Utente
+                    <span class="form-required" title="Questo campo è richiesto.">*</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control input-password" required="true" id="id_password" aria-labelledby="infoPassword">
+                <span class="password-icon" aria-hidden="true">
+                    <svg class="password-icon-visible icon icon-sm"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-visible"></use></svg>
+                    <svg class="password-icon-invisible icon icon-sm d-none"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-invisible"></use></svg>
+                </span>
+                <label for="id_password">Password
+                    <span class="form-required" title="Questo campo è richiesto.">*</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password_confirm" class="form-control input-password" required="true" id="id_password_confirm" aria-labelledby="infoPassword">
+                <span class="password-icon" aria-hidden="true">
+                    <svg class="password-icon-visible icon icon-sm"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-visible"></use></svg>
+                    <svg class="password-icon-invisible icon icon-sm d-none"><use xlink:href="{% static 'images/svg/sprite.svg' %}#it-password-invisible"></use></svg>
+                </span>
+                <label for="id_password_confirm">Conferma Password
+                    <span class="form-required" title="Questo campo è richiesto.">*</span>
+                </label>
+                <span id='message'></span>
+            </div>
+            <div class="form-group">
+                <input type="text" name="email" autofocus="" autocapitalize="none" maxlength="150" required="true" id="email">
+                <label for="email">Email
+                    <span class="form-required" title="Questo campo è richiesto.">*</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="text" name="nome" autofocus="" autocapitalize="words" maxlength="150" required="true" id="nome">
+                <label for="nome">Nome
+                    <span class="form-required" title="Questo campo è richiesto.">*</span>
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="text" name="cognome" autofocus="" autocapitalize="words" maxlength="150" required="true" id="cognome">
+                <label for="cognome">Cognome
+                    <span class="form-required" title="Questo campo è richiesto.">*</span>
+                </label>
+            </div>
+            <button type="submit" id="registra" class="btn btn-primary" style="width: 70%;">Registra</button>
+        </form>
+    </div>
+</div>
+
+{% block extrajs %}
+{{ block.super }}
+
+<script>
+    $('#id_password, #id_password_confirm').on('keyup', () => {
+        let corrisponde = $('#id_password').val() == $('#id_password_confirm').val();
+        $('#message').html(corrisponde ? '' : 'La password non corrisponde').css('color', 'red');
+        $('#registra').prop('disabled', !corrisponde);
+    });
+
+    $('#nuova_utenza_form').submit((e) => {
+        e.preventDefault();
+        $.ajax({
+            url: '/nuova_utenza/',
+            type: 'post',
+            data: $('#nuova_utenza_form').serialize(),
+            success: (data) => {
+                if (data.successo) {
+                    notificationShow('notificationTopSuccess', 6000);
+                } else {
+                    $('#messaggio').text(data.messaggio);
+                    notificationShow('notificationTopError', 6000);
+                }
+            }
+        });
+    });
+</script>
+{% endblock extrajs %}
+
+{% endblock centered_container %}
