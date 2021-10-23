@@ -1,6 +1,6 @@
 from django.urls import path, include, re_path
 from . import views
-from app.data_tables import (
+from .data_tables import (
     PersonaTable,
     SocietaTable,
     DocumentoBachecaTable,

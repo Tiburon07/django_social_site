@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, FileResponse, JsonResponse
-from app.models import DocumentoBacheca, PermessiPagine, GroupLabel
+from .models import DocumentoBacheca, PermessiPagine, GroupLabel
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import connection
 from django.contrib.auth.models import User
